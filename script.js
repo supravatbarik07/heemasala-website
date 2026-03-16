@@ -80,4 +80,94 @@ document.addEventListener('DOMContentLoaded', () => {
         reveal.style.opacity = '0';
         revealObserver.observe(reveal);
     });
+
+    // Gallery Slider Functionality
+    const slider = document.getElementById('gallerySlider');
+    const sliderWrapper = document.querySelector('.gallery-slider-wrapper');
+    
+    if (slider && sliderWrapper) {
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+        let autoPlayInterval;
+
+        const startAutoPlay = () => {
+            stopAutoPlay(); // clear any existing interval
+            autoPlayInterval = setInterval(() => {
+                // If reached the end, scroll back to start, otherwise keep scrolling right
+                if (sliderWrapper.scrollLeft >= (slider.scrollWidth - sliderWrapper.clientWidth - 10)) {
+                    sliderWrapper.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    sliderWrapper.scrollBy({ left: 300, behavior: 'smooth' });
+                }
+            }, 3000); // Change slide every 3 seconds
+        };
+
+        const stopAutoPlay = () => {
+            clearInterval(autoPlayInterval);
+        };
+
+        // Mouse Events
+        sliderWrapper.addEventListener('mousedown', (e) => {
+            isDown = true;
+            sliderWrapper.classList.add('active');
+            startX = e.pageX - sliderWrapper.offsetLeft;
+            scrollLeft = sliderWrapper.scrollLeft;
+            stopAutoPlay(); // Pause autoplay when user interacts
+        });
+
+        sliderWrapper.addEventListener('mouseleave', () => {
+            isDown = false;
+            sliderWrapper.classList.remove('active');
+            startAutoPlay(); // Resume autoplay when mouse leaves
+        });
+
+        sliderWrapper.addEventListener('mouseup', () => {
+            isDown = false;
+            sliderWrapper.classList.remove('active');
+            startAutoPlay(); // Resume autoplay after drag
+        });
+
+        sliderWrapper.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - sliderWrapper.offsetLeft;
+            const walk = (x - startX) * 2; // Scroll speed multiplier
+            sliderWrapper.scrollLeft = scrollLeft - walk;
+        });
+
+        // Touch Events for Mobile
+        sliderWrapper.addEventListener('touchstart', (e) => {
+            isDown = true;
+            startX = e.touches[0].pageX - sliderWrapper.offsetLeft;
+            scrollLeft = sliderWrapper.scrollLeft;
+            stopAutoPlay();
+        }, { passive: true });
+
+        sliderWrapper.addEventListener('touchend', () => {
+            isDown = false;
+            startAutoPlay();
+        });
+
+        sliderWrapper.addEventListener('touchmove', (e) => {
+            if (!isDown) return;
+            const x = e.touches[0].pageX - sliderWrapper.offsetLeft;
+            const walk = (x - startX) * 2;
+            sliderWrapper.scrollLeft = scrollLeft - walk;
+        }, { passive: true });
+
+        // Add hover effects for individual slides
+        const slides = document.querySelectorAll('.gallery-slide');
+        slides.forEach(slide => {
+            slide.addEventListener('mouseenter', () => {
+                slide.classList.add('scale-up');
+            });
+            slide.addEventListener('mouseleave', () => {
+                slide.classList.remove('scale-up');
+            });
+        });
+
+        // Start autoplay initially
+        startAutoPlay();
+    }
 });

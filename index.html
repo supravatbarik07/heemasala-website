@@ -284,17 +284,22 @@
     </section>
 
     <!-- Gallery -->
-    <section class="gallery section-padding" id="gallery">
+    <section class="gallery section-padding" id="gallery" style="overflow-x: hidden;">
         <div class="container">
             <div class="section-header text-center fade-up">
                 <h2 class="section-title">A Glimpse of Bheemasala</h2>
+                <p class="section-subtitle">Swipe to explore</p>
             </div>
-            <div class="gallery-masonry fade-up delay-1">
-                <div class="gallery-item"><img src="images/special.png" alt="Special Biryani"></div>
-                <div class="gallery-item"><img src="images/interior.png" alt="Restaurant Interior"></div>
-                <div class="gallery-item"><img src="images/chef.png" alt="Chef Preparing Food"></div>
-                <div class="gallery-item"><img src="images/keema.png" alt="Veg Keema Biryani"></div>
-                <div class="gallery-item"><img src="images/hero.png" alt="Family Dining Vibe"></div>
+            
+            <div class="gallery-slider-wrapper fade-up delay-1">
+                <div class="gallery-slider" id="gallerySlider">
+                    <div class="gallery-slide"><img src="images/special.png" alt="Special Biryani" draggable="false"></div>
+                    <div class="gallery-slide"><img src="images/interior.png" alt="Restaurant Interior" draggable="false"></div>
+                    <div class="gallery-slide"><img src="images/chef.png" alt="Chef Preparing Food" draggable="false"></div>
+                    <div class="gallery-slide"><img src="images/keema.png" alt="Veg Keema Biryani" draggable="false"></div>
+                    <div class="gallery-slide"><img src="images/hero.png" alt="Family Dining Vibe" draggable="false"></div>
+                    <div class="gallery-slide"><img src="images/special.png" alt="Special Biryani" draggable="false"></div>
+                </div>
             </div>
         </div>
     </section>
